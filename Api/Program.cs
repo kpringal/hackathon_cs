@@ -17,7 +17,7 @@ namespace Api
             var foramt = "ddMMMyyyy";
             
 
-            Log.Logger = new LoggerConfiguration().WriteTo.File($"C:\\temp\\Log\\Log_{DateTime.Today.ToString(foramt)}").CreateLogger();
+            Log.Logger = new LoggerConfiguration().WriteTo.File($"C:\\temp\\Log\\SpaceAllocation_Service_Log_{DateTime.Today.ToString(foramt)}").CreateLogger();
             CreateHostBuilder(args).Build().Run();
         }
 
