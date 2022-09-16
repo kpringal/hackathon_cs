@@ -6,6 +6,9 @@ using System.Net;
 using System.Net.Http;
 using System;
 using Api.Helper;
+using Api.Models.Requests;
+using Api.Models.Responses;
+using System.Collections.Generic;
 
 namespace Api.Controllers
 {
@@ -24,10 +27,12 @@ namespace Api.Controllers
 
         [ExceptionFilter]
         [HttpPost]
-        public string Create(object user)
+        public LoginResponse Login(LoginRequest user)
         {
-            _logger.LogInformation($"Create endpint invoked");
-            return "user created";
+            _logger.LogInformation($"Login endpint invoked");
+            var res = new LoginResponse() { Comment = string.Empty, IsError = false, Role = new List<string>() { "1", "Admin", "Test" }, UserName = "pk" };
+            _logger.LogInformation($"Login response created successfully");
+            return res;
         }
     }
 }
