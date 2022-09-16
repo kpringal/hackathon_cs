@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System.Net;
 using System.Net.Http;
 using System;
+using Api.Helper;
 
 namespace Api.Controllers
 {

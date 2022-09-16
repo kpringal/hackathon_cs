@@ -1,3 +1,4 @@
+using Api.Helper;
 using Api.Services;
 using Api.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
@@ -29,8 +30,9 @@ namespace Api
             services.AddScoped<ILoginService, LoginService>();
             services.AddControllers();
             services.AddSwaggerGen();
-            
-            
+          
+            OptionsConfigurationServiceCollectionExtensions.Configure<Settings>(services, Configuration.GetSection("Settings"));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
