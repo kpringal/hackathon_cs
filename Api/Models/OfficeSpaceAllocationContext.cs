@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Data;
+using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -31,7 +34,6 @@ namespace Api.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Server=tcp:hackathon-cs.database.windows.net,1433;Database=OfficeSpaceAllocation;user id=hackathon;password=cloudecare@123");
             }
         }
@@ -278,5 +280,30 @@ namespace Api.Models
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+
+        public async Task<DataTable> SelectTable(string procName, SqlParameter[] sqlParams)
+        {
+            var task = Task.Run(() =>
+            {
+                var dtDatble = new DataTable();
+                var connectionString = Database.GetDbConnection().ConnectionString;
+
+                using (var sqlCommand = new SqlCommand(procName, new SqlConnection(connectionString)))
+                {
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.Parameters.AddRange(sqlParams);
+
+                    if (sqlCommand.Connection.State != ConnectionState.Open)
+                        sqlCommand.Connection.Open();
+
+                    using var sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+                    sqlDataAdapter.Fill(dtDatble);
+                }
+                return dtDatble;
+            });
+            var res = await task;
+            return res;
+        }
     }
 }

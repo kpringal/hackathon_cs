@@ -9,11 +9,13 @@ using Api.Helper;
 using Api.Models.Requests;
 using Api.Models.Responses;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ExceptionFilter]
     public class LoginController : ControllerBase
     {
         private readonly ILoginService _loginService;
@@ -24,13 +26,12 @@ namespace Api.Controllers
             _loginService = loginService;
             _logger = logger;
         }
-
-        [ExceptionFilter]
+       
         [HttpPost]
-        public LoginResponse Login(LoginRequest user)
+        public async Task<LoginResponse> Login(LoginRequest user)
         {
-            _logger.LogInformation($"Login endpint invoked");
-            var res = new LoginResponse() { Comment = string.Empty, IsError = false, Role = new List<string>() { "1", "Admin", "Test" }, UserName = "pk" };
+            _logger.LogInformation($"Login endpint invoked for {user}");
+            var res = await _loginService.ValidateUser(user.EMail, user.Password);
             _logger.LogInformation($"Login response created successfully");
             return res;
         }
