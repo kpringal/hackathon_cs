@@ -38,7 +38,7 @@ namespace Api
                     options => options.UseSqlServer("Server=tcp:hackathon-cs.database.windows.net,1433;Database=OfficeSpaceAllocation;user id=hackathon;password=cloudecare@123"));
 
             services.AddScoped<ILoginService, LoginService>();
-
+            services.AddScoped<ISpaceAllocationService, SpaceAllocationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

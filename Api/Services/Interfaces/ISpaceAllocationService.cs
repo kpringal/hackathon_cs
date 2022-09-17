@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Api.Services.Interfaces
 {
-    public interface ILoginService
+    public interface ISpaceAllocationService
     {
-        Task<LoginResponse> ValidateUser(string email, string password);
+        Task<AllocatedSpaceResponse> GetSpaceAllocationForUser(Guid userId);
     }
 }
