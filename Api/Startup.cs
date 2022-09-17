@@ -4,16 +4,10 @@ using Api.Services;
 using Api.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Api
 {
@@ -38,7 +32,9 @@ namespace Api
                     options => options.UseSqlServer("Server=tcp:hackathon-cs.database.windows.net,1433;Database=OfficeSpaceAllocation;user id=hackathon;password=cloudecare@123"));
 
             services.AddScoped<ILoginService, LoginService>();
+            services.AddScoped<IOfficeService, OfficeService>();
             services.AddScoped<ISpaceAllocationService, SpaceAllocationService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,9 +53,6 @@ namespace Api
             {
                 endpoints.MapControllers();
             });
-
-           
-
 
             app.UseSwagger();
             app.UseSwaggerUI();

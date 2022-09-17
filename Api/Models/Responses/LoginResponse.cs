@@ -1,10 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Api.Models.Responses
 {
@@ -15,11 +10,6 @@ namespace Api.Models.Responses
         public List<string> Role { get; set; }
         public string Comment { get; set; }
         public bool HasError { get; set; }
-
-       
-
-       
-
         public override string ToString()
         {
             return $"User found {UserName} {UserKey} with {string.Join(',', Role)} roles";
