@@ -27,7 +27,7 @@ namespace Api.Services
             _officeSpaceAllocationContext = officeSpaceAllocationContext;
         }
 
-        public async Task<AllocationResponse> AllocateSeat(AllocateSeatRequest request)
+        public async Task<AllocationResponse> AllocateSeats(AllocateSeatRequest request)
         {
             AllocationResponse response;
             if (string.IsNullOrEmpty(request.UserName) || request.StartAllocationDateTime < DateTime.Now)

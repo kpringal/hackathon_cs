@@ -9,5 +9,6 @@ namespace Api.Services.Interfaces
     {
         Task<AllocatedSpaceResponse> GetSpaceAllocationForUser(Guid userId);
         Task<AllocationResponse> AllocateSpace(AllocateSpaceRequest request);
+        Task<AllocationResponse> AllocateSeats(AllocateSeatRequest request);
     }
 }
