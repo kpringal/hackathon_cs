@@ -38,6 +38,7 @@ namespace Api
                     options => options.UseSqlServer("Server=tcp:hackathon-cs.database.windows.net,1433;Database=OfficeSpaceAllocation;user id=hackathon;password=cloudecare@123"));
 
             services.AddScoped<ILoginService, LoginService>();
+            services.AddScoped<IOfficeService, OfficeService>();
 
         }
 
@@ -57,9 +58,6 @@ namespace Api
             {
                 endpoints.MapControllers();
             });
-
-           
-
 
             app.UseSwagger();
             app.UseSwaggerUI();

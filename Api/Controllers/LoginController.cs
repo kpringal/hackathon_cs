@@ -2,13 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Api.Filters;
 using Microsoft.Extensions.Logging;
-using System.Net;
-using System.Net.Http;
-using System;
-using Api.Helper;
 using Api.Models.Requests;
 using Api.Models.Responses;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Api.Controllers
