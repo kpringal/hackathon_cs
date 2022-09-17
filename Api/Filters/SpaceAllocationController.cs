@@ -10,6 +10,7 @@ namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Api.Filters.ExceptionFilter]
     public class SpaceAllocationController : ControllerBase
     {
         private readonly ILogger _logger;
@@ -44,7 +45,7 @@ namespace Api.Controllers
         public async Task<AllocationResponse> AllocateSeats(AllocateSeatRequest request)
         {
             _logger.LogInformation($"AllocateSeats endpint invoked for {request}");
-            var res = await _spaceAllocation.AllocateSeat(request);
+            var res = await _spaceAllocation.AllocateSeats(request);
             _logger.LogInformation($"Space allocation response created successfully");
             return res;
         }
