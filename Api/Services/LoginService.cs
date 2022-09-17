@@ -1,11 +1,9 @@
 ﻿using Api.Helper;
+using Api.Models;
 using Api.Services.Interfaces;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Api.Services
 {
@@ -13,13 +11,13 @@ namespace Api.Services
     {
         private readonly ILogger _logger;
         private readonly Settings _setting;
+        private readonly OfficeSpaceAllocationContext _officeSpaceAllocationContext;
 
-        public LoginService(ILogger<LoginService> logger, IOptions<Settings> settings)
+        public LoginService(ILogger<LoginService> logger, IOptions<Settings> settings , OfficeSpaceAllocationContext officeSpaceAllocationContext)
         {
             _logger = logger;
-            //Just added for reference, how to get setting defined in appsettings.json
             _setting = settings.Value;
+            _officeSpaceAllocationContext = officeSpaceAllocationContext;
         }
-
     }
 }

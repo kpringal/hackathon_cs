@@ -88,3 +88,4 @@ Api/bin/Debug/netcoreapp3.1/Serilog.Formatting.Compact.dll
 Api/bin/Debug/netcoreapp3.1/Serilog.Sinks.Async.dll
 Api/bin/Debug/netcoreapp3.1/Serilog.Sinks.File.dll
 Api/bin/Debug/netcoreapp3.1/Serilog.Sinks.RollingFile.dll
+*.dll
