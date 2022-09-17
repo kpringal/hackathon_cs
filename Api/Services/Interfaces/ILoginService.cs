@@ -5,6 +5,6 @@ namespace Api.Services.Interfaces
 {
     public interface ILoginService
     {
-       Task< LoginResponse> ValidateUser(string email, string password);
+        Task<LoginResponse> ValidateUser(string email, string password);
     }
 }
