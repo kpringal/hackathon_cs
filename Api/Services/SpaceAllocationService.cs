@@ -1,9 +1,11 @@
 ﻿using Api.Models;
+using Api.Models.Requests;
 using Api.Models.Responses;
 using Api.Services.Interfaces;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,6 +15,8 @@ namespace Api.Services
     public class SpaceAllocationService : ISpaceAllocationService
     {
         private const string _procGetUserAllOfficeSeatAllocationDetail = "[dbo].[GetUserAllOfficeSeatAllocationDetail]";
+        private const string _insertUserOfficeSeatAllocationDetails = "[dbo].[InsertUserOfficeSeatAllocationDetails]";
+        private const string _insertUserOfficeSeatAllocationDetail = "[dbo].[InsertUserOfficeSeatAllocationDetail]";
 
         private readonly ILogger _logger;
         private readonly OfficeSpaceAllocationContext _officeSpaceAllocationContext;
@@ -21,6 +25,57 @@ namespace Api.Services
         {
             _logger = logger;
             _officeSpaceAllocationContext = officeSpaceAllocationContext;
+        }
+
+        public async Task<AllocationResponse> AllocateSeat(AllocateSeatRequest request)
+        {
+            AllocationResponse response;
+            if (string.IsNullOrEmpty(request.UserName) || request.StartAllocationDateTime < DateTime.Now)
+            {
+                response = new AllocationResponse() { Comment = "Invalide seat allocation request, UserName is empty or StartAllocationDate is less then current time" };
+                _logger.LogWarning(response.Comment);
+            }
+            else
+            {
+                _logger.LogInformation($"Allocating requested Seat");
+                var sqlParams = new List<SqlParameter>();
+                sqlParams.Add(new SqlParameter("@UserKey", request.UserKey));
+                sqlParams.Add(new SqlParameter("@UserName", request.UserName));
+                sqlParams.Add(new SqlParameter("@EndAllocationDateTime", request.EndAllocationDateTime));
+                sqlParams.Add(new SqlParameter("@StartAllocationDateTime", request.StartAllocationDateTime));
+                sqlParams.Add(new SqlParameter("@OfficeSeatDetailKeys", request.OfficeSeatDetailKeys));
+                var result = await _officeSpaceAllocationContext.SaveToTable(_insertUserOfficeSeatAllocationDetails, sqlParams.ToArray());
+                if (result > 0)
+                    response = new AllocationResponse() { Comment = "Seat allocates successfully", HasError = false };
+                else
+                    response = new AllocationResponse() { Comment = "Something wrong with seat allocation ", HasError = true };
+            }
+            return response;
+        }
+
+        public async Task<AllocationResponse> AllocateSpace(AllocateSpaceRequest request)
+        {
+            AllocationResponse response;
+            if (string.IsNullOrEmpty(request.UserName) || request.StartAllocationDateTime < DateTime.Now)
+            {
+                response = new AllocationResponse() { Comment = "Invalide space request, UserName is empty or StartAllocationDate is less then current time" };
+                _logger.LogWarning(response.Comment);
+            }
+            else
+            {
+                _logger.LogInformation($"Allocating requested Space");
+                var sqlParams = new List<SqlParameter>();
+                sqlParams.Add(new SqlParameter("@UserKey", request.UserKey));
+                sqlParams.Add(new SqlParameter("@UserName", request.UserName));
+                sqlParams.Add(new SqlParameter("@AllocationDateTime", request.StartAllocationDateTime));
+                sqlParams.Add(new SqlParameter("@OfficeSpaceDetailKey", request.OfficeSeatDetailKeys));
+                var result = await _officeSpaceAllocationContext.SaveToTable(_insertUserOfficeSeatAllocationDetail, sqlParams.ToArray());
+                if (result > 0)
+                    response = new AllocationResponse() { Comment = "Space allocates successfully", HasError = false };
+                else
+                    response = new AllocationResponse() { Comment = "Something wrong with space allocation ", HasError = true };
+            }
+            return response;
         }
         public async Task<AllocatedSpaceResponse> GetSpaceAllocationForUser(Guid userId)
         {
@@ -48,18 +103,18 @@ namespace Api.Services
                             SpaceAllocatedTo = _.Field<string>("SpaceAllocatedTo")
                         });
 
-                    response = new AllocatedSpaceResponse() { AllocatedSpaces = allocatedSpace.ToList(), Comment = string.Empty, IsError = false };
+                    response = new AllocatedSpaceResponse() { AllocatedSpaces = allocatedSpace.ToList(), Comment = string.Empty, HasError = false };
                 }
                 else
                 {
                     _logger.LogWarning($"No records found for {userId} userid");
-                    response = new AllocatedSpaceResponse() { IsError = false, Comment = "No Records found" };
+                    response = new AllocatedSpaceResponse() { HasError = false, Comment = "No Records found" };
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error while fetching allocation space for {userId}");
-                response = new AllocatedSpaceResponse() { IsError = true, Comment = ex.Message };
+                response = new AllocatedSpaceResponse() { HasError = true, Comment = ex.Message };
             }
             return response;
         }

@@ -303,5 +303,28 @@ namespace Api.Models
             var res = await task;
             return res;
         }
+
+        public async Task<int> SaveToTable(string procName, SqlParameter[] sqlParams)
+        {
+            var task = Task.Run(() =>
+            {
+                int rowEffected = 0;
+                var connectionString = Database.GetDbConnection().ConnectionString;
+
+                using (var sqlCommand = new SqlCommand(procName, new SqlConnection(connectionString)))
+                {
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.Parameters.AddRange(sqlParams);
+
+                    if (sqlCommand.Connection.State != ConnectionState.Open)
+                        sqlCommand.Connection.Open();
+
+                     rowEffected = sqlCommand.ExecuteNonQuery();
+                }
+                return rowEffected;
+            });
+            var res = await task;
+            return res;
+        }
     }
 }
