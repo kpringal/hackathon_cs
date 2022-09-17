@@ -9,7 +9,7 @@ namespace Api.Models.Responses
     { 
         public List<AllocatedSpace> AllocatedSpaces { get; set; }
         public string Comment { get; set; }
-        public bool IsError { get; set; }
+        public bool HasError { get; set; }
     }
 
 

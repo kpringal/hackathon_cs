@@ -14,7 +14,7 @@ namespace Api.Models.Responses
         public Guid UserKey { get; set; }
         public List<string> Role { get; set; }
         public string Comment { get; set; }
-        public bool IsError { get; set; }
+        public bool HasError { get; set; }
 
        
 
