@@ -46,19 +46,19 @@ namespace Api.Services
                     var fullName = result.AsEnumerable().Select(_ => _.Field<string>("FullName")).FirstOrDefault();
                     var userKey = result.AsEnumerable().Select(_ => _.Field<Guid>("UserKey")).FirstOrDefault();
 
-                    response = new LoginResponse() { IsError = false, Role = roles, UserKey = userKey, UserName = fullName };
+                    response = new LoginResponse() { HasError = false, Role = roles, UserKey = userKey, UserName = fullName };
                     _logger.LogInformation( response.ToString());
                 }
                 else
                 {
                     _logger.LogWarning($"User not found for {email}");
-                    response = new LoginResponse() { IsError = false, Comment = "User not registered" };
+                    response = new LoginResponse() { HasError = false, Comment = "User not registered" };
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error while validating user");
-                response = new LoginResponse() { Comment = ex.Message, IsError = true };
+                response = new LoginResponse() { Comment = ex.Message, HasError = true };
             }
             return response;
         }
