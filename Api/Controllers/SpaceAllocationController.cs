@@ -23,10 +23,10 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        public async Task<AllocatedSpaceResponse> GetAllocatedSpace (Guid userId)
+        public async Task<AllocatedSpaceResponse> GetAllocatedSpace (GetAllocatedSpaceRequest request)
         {
-            _logger.LogInformation($"GetAllocatedSpace endpint invoked for {userId}");
-            var res = await _spaceAllocation.GetSpaceAllocationForUser(userId);
+            _logger.LogInformation($"GetAllocatedSpace endpint invoked for {request}");
+            var res = await _spaceAllocation.GetSpaceAllocationForUser(request);
             _logger.LogInformation($"Space allocation response created successfully, found {res?.AllocatedSpaces?.Count} records");
             return res;
         }

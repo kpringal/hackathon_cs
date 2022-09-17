@@ -14,7 +14,7 @@ namespace Api.Services
 {
     public class SpaceAllocationService : ISpaceAllocationService
     {
-        private const string _procGetUserAllOfficeSeatAllocationDetail = "[dbo].[GetUserAllOfficeSeatAllocationDetail]";
+        private const string _procGetUserAllOfficeSeatAllocationDetail = "[dbo].[GetUserOfficeSeatAllocationDetailForDay]";
         private const string _insertUserOfficeSeatAllocationDetails = "[dbo].[InsertUserOfficeSeatAllocationDetails]";
         private const string _insertUserOfficeSeatAllocationDetail = "[dbo].[InsertUserOfficeSeatAllocationDetail]";
 
@@ -52,7 +52,6 @@ namespace Api.Services
             }
             return response;
         }
-
         public async Task<AllocationResponse> AllocateSpace(AllocateSpaceRequest request)
         {
             AllocationResponse response;
@@ -77,13 +76,21 @@ namespace Api.Services
             }
             return response;
         }
-        public async Task<AllocatedSpaceResponse> GetSpaceAllocationForUser(Guid userId)
+        public async Task<AllocatedSpaceResponse> GetSpaceAllocationForUser(GetAllocatedSpaceRequest request)
         {
             AllocatedSpaceResponse response = null;
             try
             {
-                _logger.LogInformation($"Fetching space allocation for {userId}");
-                var sqlParams = new[] { new SqlParameter("@UserKey", userId) };
+                if(request.StartAllocationDateTime > request.EndAllocationDateTime)
+                    response = new AllocatedSpaceResponse() {  Comment = "Start date should less then End date", HasError = true };
+
+                _logger.LogInformation($"Fetching space allocation for {request}");
+                var sqlParams = new[]
+                {
+                    new SqlParameter("@UserKey", request.UserId),
+                        new SqlParameter("@StartAllocationDateTime", request.StartAllocationDateTime),
+                            new SqlParameter("@EndAllocationDateTime", request.EndAllocationDateTime)
+                };
 
                 var result = await _officeSpaceAllocationContext.SelectTable(_procGetUserAllOfficeSeatAllocationDetail, sqlParams);
 
@@ -107,13 +114,13 @@ namespace Api.Services
                 }
                 else
                 {
-                    _logger.LogWarning($"No records found for {userId} userid");
+                    _logger.LogWarning($"No records found for {request.UserId} userid");
                     response = new AllocatedSpaceResponse() { HasError = false, Comment = "No Records found" };
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Error while fetching allocation space for {userId}");
+                _logger.LogError(ex, $"Error while fetching allocation space for {request.UserId}");
                 response = new AllocatedSpaceResponse() { HasError = true, Comment = ex.Message };
             }
             return response;
