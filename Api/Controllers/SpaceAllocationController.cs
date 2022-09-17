@@ -1,11 +1,8 @@
 ﻿using Api.Models.Responses;
 using Api.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Api.Controllers
@@ -23,8 +20,7 @@ namespace Api.Controllers
             _spaceAllocation = spaceAllocation;
         }
 
-        [HttpGet]
-        
+        [HttpGet]        
         public async Task<AllocatedSpaceResponse> GetAllocatedSpace (Guid userId)
         {
             _logger.LogInformation($"GetAllocatedSpace endpint invoked for {userId}");

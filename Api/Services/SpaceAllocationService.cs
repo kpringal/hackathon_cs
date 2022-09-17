@@ -4,7 +4,6 @@ using Api.Services.Interfaces;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,7 +22,6 @@ namespace Api.Services
             _logger = logger;
             _officeSpaceAllocationContext = officeSpaceAllocationContext;
         }
-
         public async Task<AllocatedSpaceResponse> GetSpaceAllocationForUser(Guid userId)
         {
             AllocatedSpaceResponse response = null;
