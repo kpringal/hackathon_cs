@@ -47,6 +47,7 @@ namespace Api.Services
                             OfficeFloorDetailKey = _.Field<Guid>("OfficeFloorDetailKey"),
                             OfficeSeatDetailKey = _.Field<Guid>("OfficeSeatDetailKey"),
                             UserOfficeSeatAllocationDetailKey = _.Field<Guid>("UserOfficeSeatAllocationDetailKey"),
+                            SpaceAllocatedTo = _.Field<string>("SpaceAllocatedTo")
                         });
 
                     response = new AllocatedSpaceResponse() { AllocatedSpaces = allocatedSpace.ToList(), Comment = string.Empty, IsError = false };
