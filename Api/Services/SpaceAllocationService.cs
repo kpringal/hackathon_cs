@@ -77,7 +77,6 @@ namespace Api.Services
             }
             return response;
         }
-              
         public async Task<AllocatedSpaceResponse> GetSpaceAllocationForUser(Guid userId)
         {
             AllocatedSpaceResponse response = null;
