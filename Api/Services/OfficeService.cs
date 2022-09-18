@@ -82,7 +82,8 @@ namespace Api.Services
                             FloorName = _.Field<string>("FloorName"),
                             ZoneName = _.Field<string>("ZoneName"),
                             SeatCount = _.Field<int>("SeatCount")
-                        });
+                        });                  
+
                     officeDetailsResponse = new AllOfficeDetailsResponse() { AllOfficeDetails = officeDetils.ToList(), Comment = string.Empty, HasError = false };
                 }
                 else

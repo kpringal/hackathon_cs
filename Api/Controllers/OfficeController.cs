@@ -31,7 +31,7 @@ namespace Api.Controllers
             return insertOfficeResponse;
         }
 
-        [HttpGet]
+        [HttpGet("GetAllOfficeDetails")]
         public async Task<AllOfficeDetailsResponse>GetAllOfficeDetails()
         {
             _logger.LogInformation($"GetAllOfficeDetails endpint invoked for.");
