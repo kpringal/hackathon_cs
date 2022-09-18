@@ -32,7 +32,7 @@ namespace Api.Services
             AllocationResponse response;
             if (string.IsNullOrEmpty(request.UserName) || request.StartAllocationDateTime < DateTime.Now)
             {
-                response = new AllocationResponse() { Comment = "Invalide seat allocation request, UserName is empty or StartAllocationDate is less then current time" };
+                response = new AllocationResponse() { Comment = "Invalide seat allocation request, UserName is empty or StartAllocationDate is less then current time", HasError = true };
                 _logger.LogWarning(response.Comment);
             }
             else
