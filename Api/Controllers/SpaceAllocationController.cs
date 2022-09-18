@@ -22,7 +22,7 @@ namespace Api.Controllers
             _spaceAllocation = spaceAllocation;
         }
 
-        [HttpGet]
+        [HttpPost]
         public async Task<AllocatedSpaceResponse> GetAllocatedSpace ([FromBody] GetAllocatedSpaceRequest request)
         {
             _logger.LogInformation($"GetAllocatedSpace endpint invoked for {request}");
