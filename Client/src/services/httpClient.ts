@@ -36,6 +36,7 @@ export function Request(obj:any)
 {
     let config : any =defaultRequestConfig;
     config.url =obj.url;
+    config.method = obj.method;
     config.data = ['POST','PUT','DELETE','PATCH'].includes(obj.method)?obj.data:null;
     config.params = obj.params;
     let instance = createHttpClient(config);
