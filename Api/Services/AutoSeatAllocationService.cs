@@ -100,7 +100,7 @@ namespace Api.Services
                 }
                 else
                 {
-                    req.OfficeSeatDetailKeys = string.Join(',', seats.Where(_ => !string.IsNullOrEmpty(_.ToString())));
+                    req.OfficeSeatDetailKeys = string.Join(',', seats.GetRange(0, users[i].AllocatedSeats).Where(_ => !string.IsNullOrEmpty(_.ToString())));
                     seats.RemoveRange(0, users[i].AllocatedSeats);
                 }
 
