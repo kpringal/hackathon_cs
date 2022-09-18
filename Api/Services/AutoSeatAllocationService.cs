@@ -39,7 +39,11 @@ namespace Api.Services
                 if (request.StartDate > request.EndDate)
                 {
                     _logger.LogInformation($"Invalid startdate and enddate in request. End date should be grater then start date");
+
                     response = new AutoSeatAllocateResponse() { Comment = "Start date should less then End date", HasError = true , UserKey = request.UserKey };
+
+
+
                 }
                 else
                 {
@@ -61,7 +65,11 @@ namespace Api.Services
             var totalSeatNeeded = users.Sum(_ => _.AllocatedSeats);
             if (totalSeatNeeded > allocatedSeat.Count)
             {
+
                 var res = new AutoSeatAllocateResponse() { UserKey = request.UserKey,Comment = $"Allocation failed as need seat is higher then available seats, Needed Seat: {totalSeatNeeded}, Available Seat: {allocatedSeat.Count}", HasError = false };
+
+
+
                 _logger.LogInformation(res.Comment);
                 return res;
             }
