@@ -1,4 +1,6 @@
-﻿namespace Api.Models.Requests
+﻿using System;
+
+namespace Api.Models.Requests
 {
     public class InsertOfficeRequest
     {
@@ -7,6 +9,8 @@
         public string ZoneName { get; set; }
         public int SeatCount { get; set; }
         public string UserName { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
         public override string ToString()
         {
             return $"OfficeName: '{OfficeName}', FloorName: '{FloorName}', ZoneName: {ZoneName}, SeatCount: {SeatCount}";
