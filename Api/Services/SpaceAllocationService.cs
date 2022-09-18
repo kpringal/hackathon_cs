@@ -17,6 +17,7 @@ namespace Api.Services
         private const string _procGetUserAllOfficeSeatAllocationDetail = "[dbo].[GetUserOfficeSeatAllocationDetailForDay]";
         private const string _insertUserOfficeSeatAllocationDetails = "[dbo].[InsertUserOfficeSeatAllocationDetails]";
         private const string _insertUserOfficeSeatAllocationDetail = "[dbo].[InsertUserOfficeSeatAllocationDetail]";
+        private const string _getUserOfficeSeatAllocationDetailForFloor = "[dbo].[GetUserOfficeSeatAllocationDetailForFloor]";
 
         private readonly ILogger _logger;
         private readonly OfficeSpaceAllocationContext _officeSpaceAllocationContext;
@@ -90,7 +91,7 @@ namespace Api.Services
                 _logger.LogInformation($"Fetching space allocation for {request}");
                 var sqlParams = new[]
                 {
-                    new SqlParameter("@UserKey", request.UserId),
+                    new SqlParameter("@UserKey", request.UserKey),
                         new SqlParameter("@StartAllocationDateTime", request.StartAllocationDateTime),
                             new SqlParameter("@EndAllocationDateTime", request.EndAllocationDateTime)
                 };
@@ -118,13 +119,62 @@ namespace Api.Services
                 }
                 else
                 {
-                    _logger.LogWarning($"No records found for {request.UserId} userid");
+                    _logger.LogWarning($"No records found for {request.UserKey} userid");
                     response = new AllocatedSpaceResponse() { HasError = false, Comment = "No Records found" };
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Error while fetching allocation space for {request.UserId}");
+                _logger.LogError(ex, $"Error while fetching allocation space for {request.UserKey}");
+                response = new AllocatedSpaceResponse() { HasError = true, Comment = ex.Message };
+            }
+            return response;
+        }
+
+        public async Task<AllocatedSpaceResponse> GetSpaceAllocationForFloor(GetAllocatedSeatForFloorRequest request)
+        {
+            AllocatedSpaceResponse response = null;
+            try
+            {
+                _logger.LogInformation($"Fetching per floor seat allocation for {request}");
+                var sqlParams = new[]
+                {
+                    new SqlParameter("@UserKey", request.UserKey),
+                        new SqlParameter("@OfficeFloorDetailKey", request.OfficeFloorDetailKey),
+                         new SqlParameter("@StartDateTime", request.StartDate),
+                          new SqlParameter("@EndDateTime", request.EndDate)
+
+                };
+
+                var result = await _officeSpaceAllocationContext.SelectTable(_getUserOfficeSeatAllocationDetailForFloor, sqlParams);
+
+                if (result?.Rows?.Count > 0)
+                {
+                    var allocatedSpace = result.AsEnumerable().Select(_ =>
+                        new AllocatedSpace()
+                        {
+                            AllocationDateTime = _.Field<DateTime>("AllocationDateTime"),
+                            OfficeName = _.Field<string>("OfficeName"),
+                            FloorName = _.Field<string>("FloorName"),
+                            SeatNumber = _.Field<string>("SeatNumber"),
+                            OfficeKey = _.Field<Guid>("OfficeKey"),
+                            OfficeFloorDetailKey = _.Field<Guid>("OfficeFloorDetailKey"),
+                            OfficeSeatDetailKey = _.Field<Guid>("OfficeSeatDetailKey"),
+                            UserOfficeSeatAllocationDetailKey = _.Field<Guid>("UserOfficeSeatAllocationDetailKey"),
+                            SpaceAllocatedTo = _.Field<string>("SpaceAllocatedTo")
+                        });
+
+                    response = new AllocatedSpaceResponse() { AllocatedSpaces = allocatedSpace.ToList(), Comment = string.Empty, HasError = false };
+                }
+                else
+                {
+                    _logger.LogWarning($"No records found for {request.UserKey} userid");
+                    response = new AllocatedSpaceResponse() { HasError = false, Comment = "No Records found" };
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error while fetching allocation space for {request.UserKey}");
                 response = new AllocatedSpaceResponse() { HasError = true, Comment = ex.Message };
             }
             return response;
