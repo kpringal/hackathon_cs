@@ -19,6 +19,7 @@ import SpaceAllocation from '../SpaceAllocation/SpaceAllocation';
 import { useEffect, useState } from 'react';
 import DeskAllocation from '../DeskAllocation/DeskAllocation';
 import { Navigate } from "react-router-dom";
+import Avatar from '@mui/material/Avatar';
 
 const drawerWidth = 240;
 
@@ -47,8 +48,8 @@ function Home() {
           <Typography variant="h6" noWrap component="div">
             Welcome {localStorage.getItem("userName")}
           </Typography>
-        </Toolbar>
-        
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}></Avatar>
+        </Toolbar>        
       </AppBar>
       <Drawer
         variant="permanent"
