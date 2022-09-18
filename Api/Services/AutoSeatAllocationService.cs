@@ -44,7 +44,7 @@ namespace Api.Services
                 else if (request.StartDate < DateTime.Now)
                 {
                     _logger.LogInformation($"Invalid startdate. End date should be grater then curent date time {DateTime.Now}");
-                    response = new AutoSeatAllocateResponse() { Comment = "nvalid startdate. End date should be grater then curent date time {DateTime.Now}", HasError = true, UserKey = request.UserKey };
+                    response = new AutoSeatAllocateResponse() { Comment = "Invalid startdate. End date should be grater then curent date time {DateTime.Now}", HasError = true, UserKey = request.UserKey };
                 }
                 else if (request.Allocation <= 0)
                 {
@@ -71,7 +71,7 @@ namespace Api.Services
             var totalSeatNeeded = users.Sum(_ => _.AllocatedSeats);
             if (totalSeatNeeded > allocatedSeat.Count)
             {
-                var res = new AutoSeatAllocateResponse() { UserKey = request.UserKey, Comment = $"Allocation failed as need seat is higher then available seats, Needed Seat: {totalSeatNeeded}, Available Seat: {allocatedSeat.Count}", HasError = false };
+                var res = new AutoSeatAllocateResponse() { UserKey = request.UserKey, Comment = $"Allocation failed as needed seat is higher then available seats, Needed Seat: {totalSeatNeeded}, Available Seat: {allocatedSeat.Count}", HasError = false };
                 _logger.LogInformation(res.Comment);
                 return res;
             }
@@ -96,19 +96,15 @@ namespace Api.Services
 
                 if (i == users.Count - 1)
                 {
-                    req.OfficeSeatDetailKeys += string.Join(',', seats);
+                    req.OfficeSeatDetailKeys = string.Join(',', seats.Where(_ => !string.IsNullOrEmpty(_.ToString())));
                 }
                 else
                 {
-                    for (int p = 0; i < users[i].AllocatedSeats; p++)
-                    {
-                        string seat = Convert.ToString(seats[0]);
-                        req.OfficeSeatDetailKeys += seat + ",";
-                        seats.RemoveAt(0);
-                    }
+                    req.OfficeSeatDetailKeys = string.Join(',', seats.Where(_ => !string.IsNullOrEmpty(_.ToString())));
+                    seats.RemoveRange(0, users[i].AllocatedSeats);
                 }
 
-                req.OfficeSeatDetailKeys = req.OfficeSeatDetailKeys.Substring(0, req.OfficeSeatDetailKeys.Length - 1);
+                
                 _logger.LogInformation($"Allocation request prepared for {request}");
 
 
@@ -126,6 +122,7 @@ namespace Api.Services
                     HasError = res.Result.HasError,
                     Comment = res.Result.Comment
                 };
+
                 response.DownstreamUerInfos.Add(useInfo);
             }
             _logger.LogInformation($"Seats allocted/saved successfully for all users");
