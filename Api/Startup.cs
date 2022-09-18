@@ -39,7 +39,7 @@ namespace Api
 
             services.AddSwaggerGen();
             services.AddDbContext<OfficeSpaceAllocationContext>(
-                    options => options.UseSqlServer("Server=tcp:hackathon-cs.database.windows.net,1433;Database=OfficeSpaceAllocation;user id=hackathon;password=cloudecare@123"));
+                    options => options.UseSqlServer("Server=tcp:hackathon-cs.database.windows.net,1433;Database=OfficeSpaceAllocation;user id=hackathon;password=cloudecare@123", _ => _.CommandTimeout(5 * 60)));
 
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IOfficeService, OfficeService>();
