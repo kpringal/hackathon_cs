@@ -65,11 +65,7 @@ namespace Api.Services
             var totalSeatNeeded = users.Sum(_ => _.AllocatedSeats);
             if (totalSeatNeeded > allocatedSeat.Count)
             {
-
                 var res = new AutoSeatAllocateResponse() { UserKey = request.UserKey,Comment = $"Allocation failed as need seat is higher then available seats, Needed Seat: {totalSeatNeeded}, Available Seat: {allocatedSeat.Count}", HasError = false };
-
-
-
                 _logger.LogInformation(res.Comment);
                 return res;
             }
