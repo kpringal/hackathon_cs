@@ -80,6 +80,19 @@ namespace SpaceAllocationTool
                 if(allOfficeFloorDetailResponse != null && allOfficeFloorDetailResponse.allOfficeDetails != null && allOfficeFloorDetailResponse.allOfficeDetails.Any())
                 {
                     dgvOfficeDetails.DataSource = allOfficeFloorDetailResponse.allOfficeDetails.OrderBy(a => a.officeName).ThenBy(a => a.floorName).ThenBy(a => a.zoneName).ToList();
+
+                    DataGridViewButtonColumn viewButtonColumn = new DataGridViewButtonColumn();
+                    viewButtonColumn.Name = "viewBtnColumn";
+                    viewButtonColumn.HeaderText = "View";
+                    viewButtonColumn.Text = "View";
+                    viewButtonColumn.UseColumnTextForButtonValue = true;
+                    if (dgvOfficeDetails.Columns["viewBtnColumn"] == null)
+                    {
+                        dgvOfficeDetails.Columns.Add(viewButtonColumn);
+                    }
+
+                    dgvOfficeDetails.Columns["officeKey"].Visible = false;
+                    dgvOfficeDetails.Columns["officeFloorDetailKey"].Visible = false;
                 }
                 else
                 {
@@ -91,6 +104,18 @@ namespace SpaceAllocationTool
                 String error = $"Exception while loading the existing office details form. Exception: {ex.GetExceptionDetail()}";
                 _logger.Error(error);
                 ShowErrorMessage(error, true);
+            }
+        }
+
+        private void dgvOfficeDetails_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == dgvOfficeDetails.Columns["viewBtnColumn"].Index)
+            {
+                Guid officeKey = new Guid(dgvOfficeDetails.Rows[e.RowIndex].Cells["officeKey"].Value.ToString());
+                Guid officeFloorDetailKey = new Guid(dgvOfficeDetails.Rows[e.RowIndex].Cells["officeFloorDetailKey"].Value.ToString());
+
+                OfficeSeatViewLayoutForm officeSeatViewLayoutForm = new OfficeSeatViewLayoutForm(officeKey, officeFloorDetailKey);
+                officeSeatViewLayoutForm.Show();
             }
         }
     }

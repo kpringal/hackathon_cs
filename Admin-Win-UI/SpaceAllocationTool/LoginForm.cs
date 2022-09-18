@@ -20,7 +20,7 @@ namespace SpaceAllocationTool
 {
     public partial class LoginForm : Form
     {
-        private static LoginResponse LoginResponse;
+        public static LoginResponse LoginResponse;
 
         private readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 

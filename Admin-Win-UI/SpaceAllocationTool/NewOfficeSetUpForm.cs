@@ -161,6 +161,8 @@ namespace SpaceAllocationTool
                             floorName = floorDetail.FloorName,
                             zoneName = floorDetail.ZoneName,
                             seatCount = floorDetail.SeatCount,
+                            startDate = dtpAvailableFrom.Value,
+                            endDate = dtpAvailableTo.Value,
                             userName = Environment.UserName
                         });
                     }
@@ -194,6 +196,8 @@ namespace SpaceAllocationTool
         {
             try
             {
+                rowId = 0;
+
                 dtpAvailableFrom.Value = DateTime.Now.Date;
                 dtpAvailableTo.Value = DateTime.Now.Date.AddMonths(1);
                 dtpAvailableTo.MaxDate = DateTime.Now.Date.AddYears(1);
