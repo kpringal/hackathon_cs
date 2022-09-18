@@ -46,6 +46,7 @@ namespace Api
             services.AddScoped<ISpaceAllocationService, SpaceAllocationService>();
             services.AddScoped<IFreeAllocatedSpaceService, FreeAllocatedSpaceService>();
             services.AddScoped<IAutoSeatAllocationService, AutoSeatAllocationService>();
+            services.AddScoped<IManagerService, ManagerService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
