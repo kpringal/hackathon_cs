@@ -25,7 +25,17 @@ namespace Api
         {
             services.AddControllers();
             OptionsConfigurationServiceCollectionExtensions.Configure<Settings>(services, Configuration.GetSection("Settings"));
-          
+
+            services.AddCors(option =>
+            {
+                option.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                    });
+            });
 
             services.AddSwaggerGen();
             services.AddDbContext<OfficeSpaceAllocationContext>(
@@ -46,6 +56,8 @@ namespace Api
             }
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseAuthorization();
 
