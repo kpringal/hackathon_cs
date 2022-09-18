@@ -14,5 +14,5 @@ namespace Api.Models.Responses
         public string FloorName { get; set; }
         public string ZoneName { get; set; }
         public int SeatCount { get; set; }
-    }    
+    }
 }
