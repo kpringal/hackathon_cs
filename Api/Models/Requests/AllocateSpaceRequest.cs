@@ -21,7 +21,7 @@ namespace Api.Models.Requests
     public class AllocateSeatRequest
     {
         public Guid UserKey { get; set; }
-        public Guid OfficeSeatDetailKeys { get; set; }
+        public string OfficeSeatDetailKeys { get; set; }
         public DateTime StartAllocationDateTime { get; set; }
         public DateTime EndAllocationDateTime { get; set; }
         public string UserName { get; set; }

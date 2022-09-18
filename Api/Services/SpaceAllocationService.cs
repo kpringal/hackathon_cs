@@ -81,8 +81,11 @@ namespace Api.Services
             AllocatedSpaceResponse response = null;
             try
             {
-                if(request.StartAllocationDateTime > request.EndAllocationDateTime)
-                    response = new AllocatedSpaceResponse() {  Comment = "Start date should less then End date", HasError = true };
+                if (request.StartAllocationDateTime > request.EndAllocationDateTime)
+                {
+                    _logger.LogInformation($"Invalid startdate and enddate in request. End date should be grater then start date");
+                    response = new AllocatedSpaceResponse() { Comment = "Start date should less then End date", HasError = true };
+                }
 
                 _logger.LogInformation($"Fetching space allocation for {request}");
                 var sqlParams = new[]
