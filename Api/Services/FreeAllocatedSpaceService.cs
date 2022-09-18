@@ -16,7 +16,7 @@ namespace Api.Services
         private readonly ILogger _logger;
         private readonly OfficeSpaceAllocationContext _officeSpaceAllocationContext;
 
-        public FreeAllocatedSpaceService(ILogger<LoginService> logger, OfficeSpaceAllocationContext officeSpaceAllocationContext)
+        public FreeAllocatedSpaceService(ILogger<FreeAllocatedSpaceService> logger, OfficeSpaceAllocationContext officeSpaceAllocationContext)
         {
             _logger = logger;
             _officeSpaceAllocationContext = officeSpaceAllocationContext;

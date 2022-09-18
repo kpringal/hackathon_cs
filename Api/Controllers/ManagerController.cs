@@ -16,7 +16,7 @@ namespace Api.Controllers
         private readonly IManagerService _managerService;
         private readonly ILogger _logger;
 
-        public ManagerController(IManagerService managerService, ILogger<LoginController> logger)
+        public ManagerController(IManagerService managerService, ILogger<ManagerController> logger)
         {
             _managerService = managerService;
             _logger = logger;
