@@ -20,6 +20,7 @@ import { useEffect, useState } from 'react';
 import DeskAllocation from '../DeskAllocation/DeskAllocation';
 import { Navigate } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
+import Link from '@mui/material/Link';
 
 const drawerWidth = 240;
 
@@ -49,6 +50,7 @@ function Home() {
             Welcome {localStorage.getItem("userName")}
           </Typography>
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}></Avatar>
+          <Link color="inherit" href="/login">Sign Out</Link>
         </Toolbar>        
       </AppBar>
       <Drawer
