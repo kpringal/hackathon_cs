@@ -10,6 +10,8 @@ namespace BusinessEntity
         public string floorName { get; set; }
         public string zoneName { get; set; }
         public int seatCount { get; set; }
+        public DateTime startDate { get; set; }
+        public DateTime endDate { get; set; }
         public string userName { get; set; }
     }
 }

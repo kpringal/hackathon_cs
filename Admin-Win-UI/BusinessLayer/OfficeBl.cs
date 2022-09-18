@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Text;
 using Utility.ExceptionHelper;
 using System.Linq;
+using BusinessEntity.Service;
 
 namespace BusinessLayer
 {
@@ -69,6 +70,24 @@ namespace BusinessLayer
             catch (Exception ex)
             {
                 _logger.Error($"Exception while getting all office fllow details. Exception: {ex.GetExceptionDetail()}");
+                throw;
+            }
+        }
+
+        public UserOfficeSeatAllocationDetailForFloorResponse GetUserOfficeSeatAllocationDetailForFloor(UserOfficeSeatAllocationDetailForFloorRequest userOfficeSeatAllocationDetailForFloorRequest)
+        {
+            try
+            {
+                OfficeService officeService = new OfficeService();
+                String response = officeService.GetUserOfficeSeatAllocationDetailForFloor(userOfficeSeatAllocationDetailForFloorRequest);
+
+                UserOfficeSeatAllocationDetailForFloorResponse userOfficeSeatAllocationDetailForFloorResponse = JsonConvert.DeserializeObject<UserOfficeSeatAllocationDetailForFloorResponse>(response);
+
+                return userOfficeSeatAllocationDetailForFloorResponse;
+            }
+            catch(Exception ex)
+            {
+                _logger.Error($"Exception while getting user office seat allocation detail for floor. Exception: {ex.GetExceptionDetail()}");
                 throw;
             }
         }

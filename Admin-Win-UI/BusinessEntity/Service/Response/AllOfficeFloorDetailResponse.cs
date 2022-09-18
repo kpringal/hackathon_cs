@@ -13,6 +13,8 @@ namespace BusinessEntity.Service.Response
 
         public class OfficeFloorDetailResponse
         {
+            public Guid officeKey { get; set; }
+            public Guid officeFloorDetailKey { get; set; }
             public string officeName { get; set; }
             public string floorName { get; set; }
             public string zoneName { get; set; }

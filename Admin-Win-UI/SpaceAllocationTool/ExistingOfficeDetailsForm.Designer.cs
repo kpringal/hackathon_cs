@@ -45,6 +45,7 @@ namespace SpaceAllocationTool
             this.dgvOfficeDetails.RowTemplate.Height = 25;
             this.dgvOfficeDetails.Size = new System.Drawing.Size(771, 414);
             this.dgvOfficeDetails.TabIndex = 0;
+            this.dgvOfficeDetails.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvOfficeDetails_CellClick);
             // 
             // ExistingOfficeDetailsForm
             // 

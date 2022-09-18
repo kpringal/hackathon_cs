@@ -71,5 +71,19 @@ namespace SpaceAllocationTool
                 ShowErrorMessage(error, true);
             }
         }
+
+        private void btnGetRequestDetails_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+                String error = $"Exception while creating new office details. Exception: {ex.GetExceptionDetail()}";
+                _logger.Error(error);
+                ShowErrorMessage(error, true);
+            }
+        }
     }
 }
