@@ -21,7 +21,7 @@ namespace Api.Services
         private readonly Settings _setting;
         private readonly OfficeSpaceAllocationContext _officeSpaceAllocationContext;
 
-        public ManagerService(ILogger<OfficeService> logger, IOptions<Settings> settings, OfficeSpaceAllocationContext officeSpaceAllocationContext)
+        public ManagerService(ILogger<ManagerService> logger, IOptions<Settings> settings, OfficeSpaceAllocationContext officeSpaceAllocationContext)
         {
             _logger = logger;
             _setting = settings.Value;
