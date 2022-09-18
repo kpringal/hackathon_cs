@@ -80,8 +80,10 @@ namespace Api.Services
                     var officeDetils = result.AsEnumerable().Select(_ =>
                         new OfficeDetial()
                         {
+                            OfficeKey = _.Field<Guid>("OfficeKey"),
                             OfficeName = _.Field<string>("OfficeName"),
                             FloorName = _.Field<string>("FloorName"),
+                            OfficeFloorDetailKey = _.Field<Guid>("OfficeFloorDetailKey"),
                             ZoneName = _.Field<string>("ZoneName"),
                             SeatCount = _.Field<int>("SeatCount")
                         });

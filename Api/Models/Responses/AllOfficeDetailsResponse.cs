@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Api.Models.Responses
 {
@@ -10,6 +11,8 @@ namespace Api.Models.Responses
     }
     public class OfficeDetial
     {
+        public Guid OfficeKey { get; set; }
+        public Guid OfficeFloorDetailKey { get; set; }
         public string OfficeName { get; set; }
         public string FloorName { get; set; }
         public string ZoneName { get; set; }
