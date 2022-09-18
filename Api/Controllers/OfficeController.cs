@@ -30,5 +30,14 @@ namespace Api.Controllers
             _logger.LogInformation($"Office created successfully");
             return insertOfficeResponse;
         }
+
+        [HttpGet]
+        public async Task<AllOfficeDetailsResponse>GetAllOfficeDetails()
+        {
+            _logger.LogInformation($"GetAllOfficeDetails endpint invoked for.");
+            var res = await _officeService.GetAllOfficeDetails();
+            _logger.LogInformation($"AllOfficeDetailsResponse response created successfully, found {res?.AllOfficeDetails?.Count} records");
+            return res;
+        }
     }
 }

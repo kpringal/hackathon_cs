@@ -16,6 +16,7 @@ namespace Api.Services
     public class OfficeService : IOfficeService
     {
         private const string _procInsertOffice = "[dbo].[InsertOffice]";
+        private const string _procGetAllOfficeDetails = "[dbo].[GetAllOfficeDetails]";
 
         private readonly ILogger _logger;
         private readonly Settings _setting;
@@ -62,6 +63,40 @@ namespace Api.Services
                 response = new InsertOfficeResponse() { Comment = ex.Message, IsError = true };
             }
             return response;
+        }
+
+        public async Task<AllOfficeDetailsResponse> GetAllOfficeDetails()
+        {
+            AllOfficeDetailsResponse officeDetailsResponse = null;            
+            try
+            {
+                _logger.LogInformation($"Fetching all office with floors, zone & seat count details.");
+                var result = await _officeSpaceAllocationContext.SelectTable(_procGetAllOfficeDetails, new SqlParameter[] { });
+
+                if (result?.Rows?.Count > 0)
+                {
+                    var officeDetils = result.AsEnumerable().Select(_ =>
+                        new OfficeDetial()
+                        {
+                            OfficeName = _.Field<string>("OfficeName"),
+                            FloorName = _.Field<string>("FloorName"),
+                            ZoneName = _.Field<string>("ZoneName"),
+                            SeatCount = _.Field<int>("SeatCount")
+                        });
+                    officeDetailsResponse = new AllOfficeDetailsResponse() { AllOfficeDetails = officeDetils.ToList(), Comment = string.Empty, HasError = false };
+                }
+                else
+                {
+                    _logger.LogWarning($"No office has been created yet.");
+                    officeDetailsResponse = new AllOfficeDetailsResponse() { HasError = false, Comment = "No Office records found" };
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error while fetching office details.");
+                officeDetailsResponse = new AllOfficeDetailsResponse() { HasError = true, Comment = ex.Message };
+            }
+            return officeDetailsResponse;
         }
     }
 }

@@ -1,5 +1,5 @@
 {
     "HackathonCS":{
-        "HackathonCSAPIUrl" :""
+        "HackathonCSAPIUrl" :"https://cs-hackathon.azurewebsites.net/api"
      }
 }
