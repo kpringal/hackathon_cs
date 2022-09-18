@@ -7,5 +7,6 @@ namespace Api.Services.Interfaces
     public interface IOfficeService
     {
         Task<InsertOfficeResponse> CreateOfficePremise(InsertOfficeRequest insertOfficeRequest);
+        Task<AllOfficeDetailsResponse> GetAllOfficeDetails();
     }
 }
