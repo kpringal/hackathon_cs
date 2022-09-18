@@ -105,6 +105,7 @@ namespace Api.Services
                             AllocationDateTime = _.Field<DateTime>("AllocationDateTime"),
                             OfficeName = _.Field<string>("OfficeName"),
                             FloorName = _.Field<string>("FloorName"),
+                            ZoneName = _.Field<string>("ZoneName"),
                             SeatNumber = _.Field<string>("SeatNumber"),
                             OfficeKey = _.Field<Guid>("OfficeKey"),
                             OfficeFloorDetailKey = _.Field<Guid>("OfficeFloorDetailKey"),
