@@ -21,6 +21,7 @@ import DeskAllocation from '../DeskAllocation/DeskAllocation';
 import { Navigate } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import Link from '@mui/material/Link';
+import Inbox from '../Inbox/Inbox';
 
 const drawerWidth = 240;
 
@@ -64,7 +65,7 @@ function Home() {
         <Toolbar />
         <Box sx={{ overflow: 'auto' }}>
           <List>
-            {['Roles', 'Floor Plan', 'Space Allocation', 'Desk Allocation'].map((text, index) => (
+            {['Inbox', 'Roles', 'Floor Plan', 'Space Allocation', 'Desk Allocation'].map((text, index) => (
               <ListItem key={text} disablePadding>
                 <ListItemButton onClick={()=>SetSelectedItem(index)}>
                   <ListItemIcon>
@@ -84,16 +85,19 @@ function Home() {
         >
           <Toolbar />
           {
-            selectedItem == 0 && <Roles></Roles>
+            selectedItem == 0 && <Inbox></Inbox>
           }
           {
-            selectedItem == 1 &&<FloorPlan></FloorPlan>
+            selectedItem == 1 && <Roles></Roles>
           }
           {
-            selectedItem == 2 &&<SpaceAllocation></SpaceAllocation>
+            selectedItem == 2 &&<FloorPlan></FloorPlan>
           }
           {
-            selectedItem == 3 && <DeskAllocation></DeskAllocation>
+            selectedItem == 3 &&<SpaceAllocation></SpaceAllocation>
+          }
+          {
+            selectedItem == 4 && <DeskAllocation></DeskAllocation>
           }
         </Box>
       </Box>
