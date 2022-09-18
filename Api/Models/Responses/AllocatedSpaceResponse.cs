@@ -18,6 +18,7 @@ namespace Api.Models.Responses
         public DateTime AllocationDateTime { get; set; }
         public string OfficeName{ get; set; }
         public string  FloorName{ get; set; }
+        public string ZoneName { get; set; }
         public string SeatNumber { get; set; }
         public Guid OfficeKey { get; set; }
         public Guid OfficeFloorDetailKey { get; set; }
