@@ -5,11 +5,18 @@ Whole SAT problem statement is divided into two parts
         3. A department COO can raise a request to Floor Manager for allocating Space with all required details.
         4. Once Floor Manager approved request, only then approved space will get allocate to COO (requester).
   
-  2. Space Allocation & Desk Allocation
+  2. Space & Desk Allocation
+        
         
 API Url: 
   https://cs-hackathon.azurewebsites.net
   Swagger : https://cs-hackathon.azurewebsites.net/swagger/index.html
+  Following services are created
+       1. Login Service
+       2. Office Service
+       3. Manger Service
+       4. Space Allocation Service
+       5. Pending Space Request Service
  
 Client React App Url: 
   https://cshackathoncli.azurewebsites.net/
