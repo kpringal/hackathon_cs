@@ -39,11 +39,17 @@ namespace Api.Services
                 if (request.StartDate > request.EndDate)
                 {
                     _logger.LogInformation($"Invalid startdate and enddate in request. End date should be grater then start date");
-
-                    response = new AutoSeatAllocateResponse() { Comment = "Start date should less then End date", HasError = true , UserKey = request.UserKey };
-
-
-
+                    response = new AutoSeatAllocateResponse() { Comment = "Start date should less then End date", HasError = true, UserKey = request.UserKey };
+                }
+                else if (request.StartDate < DateTime.Now)
+                {
+                    _logger.LogInformation($"Invalid startdate. End date should be grater then curent date time {DateTime.Now}");
+                    response = new AutoSeatAllocateResponse() { Comment = "nvalid startdate. End date should be grater then curent date time {DateTime.Now}", HasError = true, UserKey = request.UserKey };
+                }
+                else if (request.Allocation <= 0)
+                {
+                    _logger.LogInformation($"Invalid allocation. It should be grater then 0");
+                    response = new AutoSeatAllocateResponse() { Comment = "Invalid allocation. It should be grater then 0", HasError = true, UserKey = request.UserKey };
                 }
                 else
                 {
@@ -65,7 +71,7 @@ namespace Api.Services
             var totalSeatNeeded = users.Sum(_ => _.AllocatedSeats);
             if (totalSeatNeeded > allocatedSeat.Count)
             {
-                var res = new AutoSeatAllocateResponse() { UserKey = request.UserKey,Comment = $"Allocation failed as need seat is higher then available seats, Needed Seat: {totalSeatNeeded}, Available Seat: {allocatedSeat.Count}", HasError = false };
+                var res = new AutoSeatAllocateResponse() { UserKey = request.UserKey, Comment = $"Allocation failed as need seat is higher then available seats, Needed Seat: {totalSeatNeeded}, Available Seat: {allocatedSeat.Count}", HasError = false };
                 _logger.LogInformation(res.Comment);
                 return res;
             }
@@ -77,40 +83,49 @@ namespace Api.Services
 
             var seats = allocatedSeat.Select(_ => _.OfficeSeatDetailKey).ToList();
             _logger.LogInformation("Started saving seat allocation");
-            foreach (var item in users)
+
+            for (int i = 0; i < users.Count; i++)
             {
                 AllocateSeatRequest req = new AllocateSeatRequest()
                 {
                     StartAllocationDateTime = request.StartDate,
                     EndAllocationDateTime = request.EndDate,
-                    UserKey = item.UserKey,
-                    UserName = item.FullName
+                    UserKey = users[i].UserKey,
+                    UserName = users[i].FullName
                 };
-               
-                for (int i = 0; i < item.AllocatedSeats; i++)
+
+                if (i == users.Count - 1)
                 {
-                    string seat = Convert.ToString(seats[0]);
-                    req.OfficeSeatDetailKeys += seat + ",";
-                    seats.RemoveAt(0);
+                    req.OfficeSeatDetailKeys += string.Join(',', seats);
                 }
+                else
+                {
+                    for (int p = 0; i < users[i].AllocatedSeats; p++)
+                    {
+                        string seat = Convert.ToString(seats[0]);
+                        req.OfficeSeatDetailKeys += seat + ",";
+                        seats.RemoveAt(0);
+                    }
+                }
+
                 req.OfficeSeatDetailKeys = req.OfficeSeatDetailKeys.Substring(0, req.OfficeSeatDetailKeys.Length - 1);
                 _logger.LogInformation($"Allocation request prepared for {request}");
 
 
                 _logger.LogInformation($"Started allocating/saving seats");
-                _spaceAllocationService.AllocateSeats(req);
+                var res = _spaceAllocationService.AllocateSeats(req);
                 _logger.LogInformation($"Seats allocted/saved successfully");
-
 
                 var useInfo = new DownstreamUerInfo()
                 {
-                    AllocatedSeats = item.AllocatedSeats,
-                    FullName = item.FullName,
-                    TeamSize = item.TeamSize,
-                    UserKey = item.UserKey,
-                    SeatsList = req.OfficeSeatDetailKeys.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList()
+                    AllocatedSeats = i == users.Count - 1 ? seats.Count : users[i].AllocatedSeats,
+                    FullName = users[i].FullName,
+                    TeamSize = users[i].TeamSize,
+                    UserKey = users[i].UserKey,
+                    SeatsList = req.OfficeSeatDetailKeys.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList(),
+                    HasError = res.Result.HasError,
+                    Comment = res.Result.Comment
                 };
-
                 response.DownstreamUerInfos.Add(useInfo);
             }
             _logger.LogInformation($"Seats allocted/saved successfully for all users");
