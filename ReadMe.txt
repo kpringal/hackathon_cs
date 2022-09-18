@@ -3,4 +3,4 @@ API Url:
   Swagger : https://cs-hackathon.azurewebsites.net/swagger/index.html
  
 Client React App Url: 
-  https://hackathoncli.azurewebsites.net/
+  https://cshackathoncli.azurewebsites.net/
