@@ -23,7 +23,7 @@ namespace Api.Controllers
         }
        
         [HttpPost]
-        public async Task<LoginResponse> Login(LoginRequest user)
+        public async Task<LoginResponse> Login([FromBody] LoginRequest user)
         {
             _logger.LogInformation($"Login endpint invoked for {user}");
             var res = await _loginService.ValidateUser(user.EMail, user.Password);
