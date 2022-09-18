@@ -1,0 +1,51 @@
+﻿using BusinessEntity;
+using log4net;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Text;
+using Utility.ExceptionHelper;
+
+namespace SpaceAllocationServiceLayer.Office
+{
+    public class OfficeService
+    {
+        private readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        private const String CreateOfficeUrl = @"https://cs-hackathon.azurewebsites.net/api/Office/Insert";
+        
+        private const String GetAllOfficeDetailsUrl = @"https://cs-hackathon.azurewebsites.net/api/Office/GetAllOfficeDetails";
+
+        public String CreateNewOffice(OfficeFloorDetail officeFloorDetail)
+        {
+            try
+            {
+                SATService satService = new SATService();
+                String response = satService.SendPostRequest(CreateOfficeUrl, officeFloorDetail);
+                                
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"Exception while creating new office. Exception: {ex.GetExceptionDetail()}");
+                throw;
+            }
+        }
+
+        public String GetAllOfficeFloorDetails()
+        {
+            try
+            {
+                SATService satService = new SATService();
+                String response = satService.SendGetRequest(GetAllOfficeDetailsUrl);
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"Exception while getting all office floor details. Exception: {ex.GetExceptionDetail()}");
+                throw;
+            }
+        }
+    }
+}
