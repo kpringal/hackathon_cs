@@ -22,6 +22,7 @@ import { Navigate } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import Link from '@mui/material/Link';
 import Inbox from '../Inbox/Inbox';
+import ReleaseSpace from '../ReleaseSpace/ReleaseSpace';
 
 const drawerWidth = 240;
 
@@ -65,7 +66,7 @@ function Home() {
         <Toolbar />
         <Box sx={{ overflow: 'auto' }}>
           <List>
-            {['Inbox', 'Roles', 'Floor Plan', 'Space Allocation', 'Desk Allocation'].map((text, index) => (
+            {['Inbox', 'Roles', 'Floor Plan', 'Space Allocation', 'Desk Allocation', 'ReleaseSpace'].map((text, index) => (
               <ListItem key={text} disablePadding>
                 <ListItemButton onClick={()=>SetSelectedItem(index)}>
                   <ListItemIcon>
@@ -98,6 +99,9 @@ function Home() {
           }
           {
             selectedItem == 4 && <DeskAllocation></DeskAllocation>
+          }
+          {
+            selectedItem == 5 && <ReleaseSpace></ReleaseSpace>
           }
         </Box>
       </Box>
