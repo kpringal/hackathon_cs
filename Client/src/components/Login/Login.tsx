@@ -12,6 +12,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from "react-router-dom";
+import { Request } from '../../services/httpClient';
 
 interface LoginProps {}
 
@@ -32,6 +34,7 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 function Login() {
+  const navigate = useNavigate();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -39,6 +42,29 @@ function Login() {
       email: data.get('email'),
       password: data.get('password'),
     });
+
+    const payload = {
+      eMail: data.get('email'),
+      password: data.get('password')
+  }
+
+  Request({url:'/Login',method:"POST",data:payload}).then(
+    function(res)
+    {
+      console.log(res);
+      localStorage.setItem("authenticated", "true");
+      localStorage.setItem("userkey", res.data.userKey);
+      localStorage.setItem("userName", res.data.userName);
+      navigate("/home");
+    }
+  ).catch(
+    function(err)
+    {
+      console.log(err);
+    }
+  );
+  
+
   };
 
   return (
