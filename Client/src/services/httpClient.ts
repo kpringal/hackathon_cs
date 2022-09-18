@@ -16,7 +16,7 @@ const defaultRequestConfig:IhttpRequestConfigs ={
     baseURL :SiteConfig.HackathonCSAPIUrl,
     headers:{},
     method:'GET',
-    timeout:120000
+    timeout:1200000
 }
 
 export const createHttpClient =(configs:IhttpRequestConfigs = {}):AxiosInstance => {

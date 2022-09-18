@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/63d4c4c4-8d7a-4320-9c4a-5e5761ccf8ca/AppServices/subscriptions/63d4c4c4-8d7a-4320-9c4a-5e5761ccf8ca/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/cshackathoncli",
+    "appService.deploySubpath": "build"
+}

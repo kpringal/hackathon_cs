@@ -14,6 +14,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom";
 import { Request } from '../../services/httpClient';
+import { red } from '@mui/material/colors';
 
 interface LoginProps {}
 
@@ -52,10 +53,17 @@ function Login() {
     function(res)
     {
       console.log(res);
-      localStorage.setItem("authenticated", "true");
-      localStorage.setItem("userkey", res.data.userKey);
-      localStorage.setItem("userName", res.data.userName);
-      navigate("/home");
+      if(res.data.hasError)
+      {
+        alert("Invalid Credential");
+      }
+      else
+      {
+          localStorage.setItem("authenticated", "true");
+          localStorage.setItem("userkey", res.data.userKey);
+          localStorage.setItem("userName", res.data.userName);
+          navigate("/home");
+      }
     }
   ).catch(
     function(err)
