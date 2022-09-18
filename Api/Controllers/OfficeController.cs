@@ -23,7 +23,7 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public async Task<InsertOfficeResponse> InsertOffice(InsertOfficeRequest officeRequest)
+        public async Task<InsertOfficeResponse> InsertOffice([FromBody] InsertOfficeRequest officeRequest)
         {
             _logger.LogInformation($"Office creation endpint invoked for {officeRequest}");
             var insertOfficeResponse = await _officeService.CreateOfficePremise(officeRequest);

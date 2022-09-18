@@ -23,7 +23,7 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public async Task<FreeAllocatedSpaceResponse> FreeAllocatedSpace(FreeAllocatedSpaceRequest freeAllocatedSpaceRequest)
+        public async Task<FreeAllocatedSpaceResponse> FreeAllocatedSpace([FromBody] FreeAllocatedSpaceRequest freeAllocatedSpaceRequest)
         {
             _logger.LogInformation($"FreeAllocatedSpace endpint invoked for '{freeAllocatedSpaceRequest.UserKey}'");
             var res = await _freeSpaceService.FreeAllocatedSpace(freeAllocatedSpaceRequest);

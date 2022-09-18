@@ -23,7 +23,7 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        public async Task<AllocatedSpaceResponse> GetAllocatedSpace (GetAllocatedSpaceRequest request)
+        public async Task<AllocatedSpaceResponse> GetAllocatedSpace ([FromBody] GetAllocatedSpaceRequest request)
         {
             _logger.LogInformation($"GetAllocatedSpace endpint invoked for {request}");
             var res = await _spaceAllocation.GetSpaceAllocationForUser(request);
@@ -32,7 +32,7 @@ namespace Api.Controllers
         }
 
         [HttpPost("AllocateSpace")]
-        public async Task<AllocationResponse> AllocateSpace(AllocateSpaceRequest request)
+        public async Task<AllocationResponse> AllocateSpace([FromBody] AllocateSpaceRequest request)
         {
             _logger.LogInformation($"AllocateSpace endpint invoked for {request}");
             var res = await _spaceAllocation.AllocateSpace(request);
@@ -42,7 +42,7 @@ namespace Api.Controllers
 
 
         [HttpPost("AllocateSeats")]
-        public async Task<AllocationResponse> AllocateSeats(AllocateSeatRequest request)
+        public async Task<AllocationResponse> AllocateSeats([FromBody] AllocateSeatRequest request)
         {
             _logger.LogInformation($"AllocateSeats endpint invoked for {request}");
             var res = await _spaceAllocation.AllocateSeats(request);
