@@ -8,6 +8,7 @@ namespace Api.Services.Interfaces
     public interface ISpaceAllocationService
     {
         Task<AllocatedSpaceResponse> GetSpaceAllocationForUser(GetAllocatedSpaceRequest request);
+        Task<AllocatedSpaceResponse> GetSpaceAllocationForFloor(GetAllocatedSeatForFloorRequest request);
         Task<AllocationResponse> AllocateSpace(AllocateSpaceRequest request);
         Task<AllocationResponse> AllocateSeats(AllocateSeatRequest request);
     }

@@ -31,6 +31,15 @@ namespace Api.Controllers
             return res;
         }
 
+        [HttpPost("AllocatedSpaceForFloor")]
+        public async Task<AllocatedSpaceResponse> GetAllocatedSpaceForFloor([FromBody] GetAllocatedSeatForFloorRequest request)
+        {
+            _logger.LogInformation($"GetAllocatedSpaceForFloor endpint invoked for {request}");
+            var res = await _spaceAllocation.GetSpaceAllocationForFloor(request);
+            _logger.LogInformation($"GetAllocatedSpaceForFloor response created successfully, found {res?.AllocatedSpaces?.Count} records");
+            return res;
+        }
+
         [HttpPost("AllocateSpace")]
         public async Task<AllocationResponse> AllocateSpace([FromBody] AllocateSpaceRequest request)
         {
