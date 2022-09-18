@@ -22,7 +22,7 @@ namespace Api.Controllers
             _logger = logger;
         }
 
-        [HttpPost]
+        [HttpPost("InsertOffice")]
         public async Task<InsertOfficeResponse> InsertOffice([FromBody] InsertOfficeRequest officeRequest)
         {
             _logger.LogInformation($"Office creation endpint invoked for {officeRequest}");

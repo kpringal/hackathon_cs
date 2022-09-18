@@ -38,7 +38,9 @@ namespace Api.Services
                 var sqlParams = new[] { new SqlParameter("@OfficeName", insertOfficeRequest.OfficeName),
                                         new SqlParameter("@FloorName", insertOfficeRequest.FloorName),
                                         new SqlParameter("@ZoneName", insertOfficeRequest.ZoneName),
-                                        new SqlParameter("@SeatCount", insertOfficeRequest.SeatCount),
+                                        new SqlParameter("@SeatCount", insertOfficeRequest.SeatCount),                                        
+                                        new SqlParameter("@StartDate", insertOfficeRequest.StartDate),
+                                        new SqlParameter("@EndDate", insertOfficeRequest.EndDate),
                                         new SqlParameter("@UserName", insertOfficeRequest.UserName)};
 
                 var result = await _officeSpaceAllocationContext.SelectTable(_procInsertOffice, sqlParams);
